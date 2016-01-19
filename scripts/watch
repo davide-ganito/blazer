@@ -1,0 +1,6 @@
+#!/bin/bash
+npm run clean
+babel --bail --watch --debug --source-maps inline \
+  --optional runtime --copy-files --stage 0 \
+  --ignore ./src/__build__ \
+  --out-dir ./dist ./src
