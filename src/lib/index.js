@@ -1,11 +1,12 @@
 import React from 'react';
 import _ from 'lodash';
+import invariant from 'invariant';
 
 let containers = [];
 
 export default {
 
-  createContainer( Component, opts) {
+  createContainer( Component, opts ) {
 
     const {
       styles
@@ -139,20 +140,25 @@ export default {
    * @method toStyleSheet
    * @static
    */
-  toStyleSheet() {
+  toStyleSheet( opts = {} ) {
+
+    const { wrapped } = {
+      wrapped : true,
+      ...opts
+    };
 
     const rules = _.flatten(
       containers
         .map((container)=>container.getRules())
     );
 
+    const css = rules
+      .map((rule) => `${rule.selector} { ${rule.descriptor} }`)
+      .join('\n');
+
     return (
-      `<style>${
-        rules
-          .map((rule) => `${rule.selector} { ${rule.descriptor} }`)
-          .join('\n')
-      }</style>`
-    )
+      wrapped ? `<style>${css}</style>` : css
+    );
 
   }
 
