@@ -18,7 +18,8 @@ export default {
     // @todo il containerID deve essere generato univocamente dal Componente
     // così da poter utilizzare più istanze di Styler contemporaneamente
     // evitando collisioni
-    const containerID = containers.length;
+    //const containerID = containers.length;
+    const containerID = Component.displayName || Component.name || containers.length;
 
     const [ fragmentKeys, classKeys ] =
       _.partition( _.keys( styles ),
