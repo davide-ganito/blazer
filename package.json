@@ -1,6 +1,6 @@
 {
   "name": "@vas/styler",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Stylesheet colocation for React",
   "main": "dist/index.js",
   "scripts": {
