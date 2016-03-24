@@ -3,8 +3,13 @@ import _ from 'lodash';
 import invariant from 'invariant';
 
 let containers = [];
+let styleID = 'styler';
 
 export default {
+
+  setStyleID ( ID ){
+    styleID = ID;
+  },
 
   createContainer( Component, opts ) {
 
@@ -14,6 +19,8 @@ export default {
       styles : {},
       ...opts
     };
+
+    const Styler = this;
 
     // @todo il containerID deve essere generato univocamente dal Componente
     // così da poter utilizzare più istanze di Styler contemporaneamente
@@ -67,6 +74,17 @@ export default {
     const Container = React.createClass({
 
       displayName : `Style(${Component.displayName})`,
+
+      /**
+       * @method componentDidMount
+       * @static
+       */
+      componentDidMount() {
+        const { document } = global;
+        if ( document ) {
+          document.getElementById( styleID ).innerHTML = Styler.toStyleSheet({ wrapped : false });
+        };
+      },
 
       render() {
 
