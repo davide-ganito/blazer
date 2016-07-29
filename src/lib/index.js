@@ -1,11 +1,17 @@
 import React from 'react';
 import _ from 'lodash';
+import invariant from 'invariant';
 
 let containers = [];
+let styleID = 'styler';
 
 export default {
 
-  createContainer( Component, opts) {
+  setStyleID ( ID ){
+    styleID = ID;
+  },
+
+  createContainer( Component, opts ) {
 
     const {
       styles
@@ -14,10 +20,13 @@ export default {
       ...opts
     };
 
+    const Styler = this;
+
     // @todo il containerID deve essere generato univocamente dal Componente
     // così da poter utilizzare più istanze di Styler contemporaneamente
     // evitando collisioni
-    const containerID = containers.length;
+    //const containerID = containers.length;
+    const containerID = Component.displayName || Component.name || containers.length;
 
     const [ fragmentKeys, classKeys ] =
       _.partition( _.keys( styles ),
@@ -65,6 +74,17 @@ export default {
     const Container = React.createClass({
 
       displayName : `Style(${Component.displayName})`,
+
+      /**
+       * @method componentDidMount
+       * @static
+       */
+      componentDidMount() {
+        const { document } = global;
+        if ( document ) {
+          document.getElementById( styleID ).innerHTML = Styler.toStyleSheet({ wrapped : false });
+        };
+      },
 
       render() {
 
@@ -139,20 +159,25 @@ export default {
    * @method toStyleSheet
    * @static
    */
-  toStyleSheet() {
+  toStyleSheet( opts = {} ) {
+
+    const { wrapped } = {
+      wrapped : true,
+      ...opts
+    };
 
     const rules = _.flatten(
       containers
         .map((container)=>container.getRules())
     );
 
+    const css = rules
+      .map((rule) => `${rule.selector} { ${rule.descriptor} }`)
+      .join('\n');
+
     return (
-      `<style>${
-        rules
-          .map((rule) => `${rule.selector} { ${rule.descriptor} }`)
-          .join('\n')
-      }</style>`
-    )
+      wrapped ? `<style>${css}</style>` : css
+    );
 
   }
 

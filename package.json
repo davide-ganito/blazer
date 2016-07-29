@@ -1,6 +1,6 @@
 {
   "name": "react-blazer",
-  "version": "0.1.1",
+  "version": "0.2.1",
   "description": "Composable Style Sheets using React",
   "main": "dist/lib/index.js",
   "scripts": {
