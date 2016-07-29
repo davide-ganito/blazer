@@ -1,7 +1,7 @@
 {
-  "name": "@vas/styler",
+  "name": "react-blazer",
   "version": "0.1.1",
-  "description": "Stylesheet colocation for React",
+  "description": "Composable Style Sheets using React",
   "main": "dist/lib/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -11,10 +11,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@bitbucket.org:vas-dev/styler.git"
+    "url": "git@github.com:davide-ganito/blazer.git"
   },
   "author": "",
-  "license": "ISC",
+  "license": "GNUv3",
   "dependencies": {
     "babel-runtime": "^5.6.20",
     "debug": "^2.2.0",
